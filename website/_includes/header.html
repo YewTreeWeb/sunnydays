@@ -1,0 +1,30 @@
+<header class="site-header reveal-from-top navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item site-logo" href="{{ site.baseurl | default: site.url }}">
+        {%- if site.logo -%}
+          <img src="" alt="{{ site.title }}">
+        {%- else -%}
+          {{ site.title }}
+        {%- endif -%}
+      </a>
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="site-nav">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    
+    <div class="navbar-end">
+      {%- include_cached navigation.html -%}
+      <div class="navbar-item">
+        <button id="switch-theme" aria-label="theme switcher" title="theme switcher"
+          type="button">
+          {%- include svg-icon.html icon="Sun" id="sun" w="59" h="59" hidden=true -%}
+          {%- include svg-icon.html icon="Moon" id="moon" w="59" h="59" hidden=true -%}
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

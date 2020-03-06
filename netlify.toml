@@ -1,0 +1,16 @@
+[build]
+  command = "cd website; npm install; JEKYLL_ENV=production bundle exec jekyll build;"
+  publish = "website/build/site"
+
+[context.development]
+  command = "cd website; npm install; bundle exec jekyll build --config _config.yml, _config.dev.yml"
+  publish = "website/build/site"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "no-referrer"
+    X-Content-Type-Options = "nosniff"

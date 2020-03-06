@@ -1,0 +1,149 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+#
+# If you need help with YAML syntax, here are some quick references for you:
+# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
+# https://learnxinyminutes.com/docs/yaml/
+#
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+
+title: Sunny Days
+email: mathew.teague@yewtreeweb.co.uk
+description: >- # this means to ignore newlines until "baseurl:"
+  A JavaScript weather app.
+baseurl: "/" # the subpath of your site, e.g. /blog
+url: "sunnydays.netlify.com" # the base hostname & protocol for your site, e.g. http://example.com
+lang: en-GB
+words_per_minute: 200
+
+# Used so Jekyll outputs the site correctly so Gulp can do what it wants
+source: website
+destination: website/build
+
+# Same as the title etc for your site but can instead be
+# called by using 'site.author.name' and so on
+# NOTE: Don't use @ in front of your Twitter username
+author:
+  name: Mathew Teague
+  email: mathew.teague@yewtreeweb.co.uk
+  uri: yewtreeweb.co.uk
+  bio: me
+  twitter: "https://twitter.com/example"
+  github: "https://github.com/example"
+  pintrest: "https://www.pinterest.co.uk/example/"
+  instagram: "https://www.instagram.com/example/"
+  linkedin: "https://www.linkedin.com/in/example"
+  gitlab: "https://gitlab.com/example"
+  facebook: "https://www.facebook.com/example"
+
+# _config.dev.yml overwrites these options when you run `gulp`
+# Hides your drafts and future posts
+future: false
+show_drafts: false
+# Disables the more accurate related posts for faster generating of the site
+lsi: false
+# Removes the upper limit for posts generated
+limit_posts: 0
+
+# Permalink structure and pagination options
+permalink: pretty
+
+# Markdown library and options
+markdown: kramdown
+kramdown:
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  enable_coderay: false
+highlighter: rouge
+strict_front_matter: true
+
+# Favicons
+favicon_version: "1.0"
+theme_colour: "#242830"
+
+# Site analytics
+google_site_verification: "geapSKtvpBNDSfXVmF09E9CnaHGglbO61r4XgLZtEmo"
+bing_site_verification: "D81F4C18A6CB3018F64D7C827D953DFD"
+alexa_site_verification: "Y5DYjZ4VWlrQzBP5kcQJeOKLNas"
+yandex_site_verification: "55a5419baf76a498"
+
+google_ad-client: "ca-pub-7328585512091257"
+google_ad-slot: "3049671934"
+google_analytics: "UA-2011187-1"
+
+pingback_url: "https://webmention.io/mademistakes.com/xmlrpc"
+webmention_url: "https://webmention.io/mademistakes.com/webmention"
+token_endpoint_url: "https://tokens.indieauth.com/token"
+authorization_endpoint_url: "https://indieauth.com/auth"
+
+# reCAPTCHA keys
+reCaptcha:
+  siteKey: "6LdRBykTAAAAAFB46MnIu6ixuxwu9W1ihFF8G60Q"
+  secret: "PznnZGu3P6eTHRPLORniSq+J61YEf+A9zmColXDM5icqF49gbunH51B8+h+i2IvewpuxtA9TFoK68TuhUp/X3YKmmqhXasegHYabY50fqF9nJh9npWNhvITdkQHeaOqnFXUIwxfiEeUt49Yoa2waRR7a5LdRAP3SVM8hz0KIBT4="
+
+# Build settings
+plugins:
+  - jekyll-feed
+  # - jekyll-gist
+  # - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-include-cache
+  - jekyll-algolia
+  # - jekyll/tagging
+  # - jekyll-tagging-related_posts
+
+include:
+  - _pages
+  - _headers
+  - _redirects
+
+# Eclude files from Jekyll build
+exclude:
+  - build/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - package.json
+  - yarn-error.log
+  - yarn.lock
+  - package-lock.json
+  - .jekyll-assets-cache
+  - .sass-cache/
+  - Rakefile
+  - README.md
+  - gulpfile.js
+  - gulpfile.babel.js
+  - .babelrc
+  - markdown.style.rb
+  - .mdlrc
+  - .eslintignore
+  - .eslintrc.js
+  - .gitattributes
+  - .gitignore
+  - .editorconfig
+  - .stylelintrc.json
+  - .travis.yml
+  - .codeclimate.yml
+  - .github/
+  - netlify.toml
+  - CHANGELOG.md
+  - workbox-config.js
+  - src/

@@ -1,0 +1,40 @@
+---
+layout: page
+title: Docs
+permalink: /docs/
+---
+{%- comment -%} 
+
+This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+
+You can find the source code for Minima at GitHub:
+[jekyll][jekyll-organization] /
+[minima](https://github.com/jekyll/minima)
+
+You can find the source code for Jekyll at GitHub:
+[jekyll][jekyll-organization] /
+[jekyll](https://github.com/jekyll/jekyll)
+
+
+[jekyll-organization]: https://github.com/jekyll 
+
+{%- endcomment -%}
+
+<div class="home">
+
+  <h1 class="page-heading">Docss</h1>
+
+  <ul class="post-list">
+    {% for doc in site.docs %}
+    <li>
+      <span class="post-meta">{{ doc.date | date: "%b %-d, %Y" }}</span>
+
+      <h2>
+        <a class="post-link" href="{{ doc.url | prepend: site.baseurl }}">{{ doc.title }}</a>
+      </h2>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+</div>

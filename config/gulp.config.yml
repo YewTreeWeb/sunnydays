@@ -1,0 +1,89 @@
+# This file contains the information needed for Gulp to run.
+#
+# 1. Add all your file names, paths and settings here.
+# 2. Run gulp for development mode and gulp --prod for production mode.
+
+---
+## Root settings
+dist: "website/build"
+distAssets: "website/build/assets"
+jekyllDist: "website/assets"
+
+## Project syncing
+browsersync:
+  debug: true
+  notify: true
+  open: true
+  port: 4000
+  preferences:
+    clicks: false
+    scroll: false
+
+## Project file deleting
+clean:
+  dist: "website/build"
+
+## Image uploading
+cloudinary:
+  account:
+    name: "example"
+    key: "key_id"
+    secret: "secrect_id"
+  dist: "/images"
+  manifest: "config/cloudinary-manifest.json"
+  src: "website/src/images/**/*.+(jpg|jpeg|png|svg|gif)"
+
+### Fonts
+fonts:
+  dist: "/fonts"
+  src: "website/src/fonts/*"
+
+## Images
+image:
+  dist: "/images"
+  svgsprites: "website/src/images/svgsprites/**/*.svg"
+  sprites: "website/src/images/sprites/*.+(jpg|jpeg|png)"
+  src:
+    - "website/src/images/**/*.+(jpg|jpeg|png|svg|gif)"
+    - "!website/src/images/svgsprites/*"
+    - "!website/src/images/sprites/*"
+  webp:
+    - "website/src/images/**/*.+(jpg|jpeg|png)"
+    - "!website/src/images/*.svg"
+    - "!website/src/images/svgsprites/*"
+    - "!website/src/images/favicons/*"
+    - "!website/src/images/sprites/*"
+
+## Project scripts
+js:
+  dist: "/js"
+  src: "website/src/js/main.js"
+
+## Project styles
+styles:
+  dist: "/css"
+  src:
+    - "website/src/styles/main.scss"
+    - "website/src/styles/font.scss"
+
+### Vendor assets
+vendors:
+  dist: "website/src/vendors"
+
+### Watch files
+watch:
+  fonts: "website/src/fonts/*"
+  jekyll:
+    - "website/**/*.+(md|markdown)"
+    - "website/**/*.html"
+    - "website/**/*.+(yml|yaml)"
+    - "website/**/*.xml"
+    - "website/**/*.json"
+    - "website/**/*.txt"
+    - "!website/build/**/*"
+    - "!website/website/src/**/*"
+  js: "website/src/js/**/*.js"
+  images: "website/src/images/**/*"
+  svgsprites: "website/src/images/svgsprites/*"
+  sprites: "website/src/images/sprites/*"
+  scss: "website/src/styles/**/*.scss"

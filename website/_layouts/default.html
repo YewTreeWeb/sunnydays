@@ -1,0 +1,50 @@
+{%- if page.url == "/" -%}
+{%- assign pageName = 'home' -%}
+{%- else -%}
+{%- assign pageName = page.title -%}
+{%- endif -%}
+
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'en-GB' }}">
+
+{%- include head.html -%}
+
+<body
+  class="layout-{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %} page-{{ pageName | slugify }} is-loading"
+  data-theme="light">
+
+  <!--[if lte IE 9]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+  {%- include_cached skip-links.html -%}
+
+  {%- include header.html -%}
+
+  <main class="layout-{{ page.layout | default: layout.layout }} wrapper site-content">
+    {{ content }}
+  </main>
+
+  {%- include_cached footer.html -%}
+
+  <!-- JS -->
+  {%- if jekyll.environment == "production" -%}
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script>
+    window.ga = function () {
+      ga.q.push(arguments)
+    };
+    ga.q = [];
+    ga.l = +new Date;
+    ga('create', '{{ site.google_analytics }}', 'auto');
+    ga('send', 'pageview')
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+  {%- endif -%}
+  <script src="{{ '/assets/js/breakpoints.min.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/browser.min.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
+  <script src="//instant.page/3.0.0" type="module" defer
+    integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+</body>
+
+</html>

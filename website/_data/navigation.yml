@@ -1,0 +1,6 @@
+- link: /docs/
+  name: Docs
+- link: /blog/
+  name: Blog
+- link: https://github.com/example
+  name: Github
