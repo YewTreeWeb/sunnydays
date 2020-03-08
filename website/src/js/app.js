@@ -3,7 +3,9 @@ import 'airbnb-browser-shims'
 
 // Internal
 import './modules/helpers'
-import(/* webpackPreload: true */ './modules/forcast')
+import(
+  /* webpackPreload: true */ /* webpackChunkName: "forcast" */ './modules/forcast'
+)
 
 const body = document.getElementsByTagName('body')[0]
 const html = document.getElementsByTagName('html')[0]

@@ -1,3 +1,21 @@
 ---
 layout: default
 ---
+<section class="container section">
+	<div class="columns is-multiline">
+		<div class="column is-12">
+			<h1>Sunny Days</h1>
+			<form action="">
+				<label for="city">Enter Location for weather Information</label>
+				<input type="text" name="city">
+			</form>
+		</div>
+	</div>
+</section>
+<section class="container section">
+	<div class="columns is-multiline">
+	  <div class="column is-4">
+	    {%- include weather-card.html -%}
+	  </div>
+	</div>
+</section>
