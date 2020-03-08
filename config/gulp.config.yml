@@ -49,6 +49,8 @@ image:
     - "!website/src/images/sprites/*"
   webp:
     - "website/src/images/**/*.+(jpg|jpeg|png)"
+    - "website/assets/images/*.+(jpg|jpeg|png)"
+    - "!website/assets/images/*.webp"
     - "!website/src/images/*.svg"
     - "!website/src/images/svgsprites/*"
     - "!website/src/images/favicons/*"
