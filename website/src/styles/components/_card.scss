@@ -1,0 +1,17 @@
+.card {
+  &--city {
+    text-align: center;
+    @include padding(11px 28px null);
+    figure {
+      svg,
+      img {
+        @include size(100%);
+        @include size(316px, 314px, max);
+        margin: 0 auto;
+        &#darkmode-svg {
+          display: none;
+        }
+      }
+    }
+  }
+}

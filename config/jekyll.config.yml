@@ -26,7 +26,8 @@ baseurl: "/" # the subpath of your site, e.g. /blog
 url: "sunnydays.netlify.com" # the base hostname & protocol for your site, e.g. http://example.com
 lang: en-GB
 words_per_minute: 200
-
+logo: "/assets/images/sun-with-face.svg"
+logo-alt: "A vector image of a sun laughing"
 # Used so Jekyll outputs the site correctly so Gulp can do what it wants
 source: website
 destination: website/build
@@ -102,7 +103,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll-include-cache
-  - jekyll-algolia
+  # - jekyll-algolia
   # - jekyll/tagging
   # - jekyll-tagging-related_posts
 

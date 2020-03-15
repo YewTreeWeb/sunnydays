@@ -11253,8 +11253,12 @@ html
 
 body
 {
+    min-height: 100vh;
+
     color: var(--colour-text);
-    background-color: var(--colour-primary);
+    background: var(--colour-primary) url('/assets/images/summer-day.jpg') no-repeat center;
+    background: var(--colour-primary) url('/assets/images/summer-day.webp') no-repeat center;
+    background-size: cover;
 
     -ms-overflow-style: scrollbar;
 }
@@ -11676,6 +11680,39 @@ ol.no-style
 .text-italic
 {
     font-style: italic;
+}
+
+.site-header #logo
+{
+    width: 37px;
+    height: 100%;
+    max-height: 37px;
+    margin-right: 10px;
+}
+
+.card--city
+{
+    padding-top: 11px;
+    padding-right: 28px;
+    padding-left: 28px;
+
+    text-align: center;
+}
+
+.card--city figure svg,
+.card--city figure img
+{
+    width: 100%;
+    max-width: 316px;
+    height: 100%;
+    max-height: 314px;
+    margin: 0 auto;
+}
+
+.card--city figure svg#darkmode-svg,
+.card--city figure img#darkmode-svg
+{
+    display: none;
 }
 
 @media (min-width: 320px)

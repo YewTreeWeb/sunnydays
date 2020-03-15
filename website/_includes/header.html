@@ -3,10 +3,9 @@
     <div class="navbar-brand">
       <a class="navbar-item site-logo" href="{{ site.baseurl | default: site.url }}">
         {%- if site.logo -%}
-          <img src="" alt="{{ site.title }}">
-        {%- else -%}
-          {{ site.title }}
+          <img id="logo" src="{{ site.logo | relative_url }}" title="{{ site.title }}" alt="{{ site.logo-alt }}" width="37">
         {%- endif -%}
+        {{ site.title }}
       </a>
 
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="site-nav">
@@ -19,11 +18,11 @@
     <div class="navbar-end">
       {%- include_cached navigation.html -%}
       <div class="navbar-item">
-        <button id="switch-theme" aria-label="theme switcher" title="theme switcher"
-          type="button">
-          {%- include svg-icon.html icon="Sun" id="sun" w="59" h="59" hidden=true -%}
-          {%- include svg-icon.html icon="Moon" id="moon" w="59" h="59" hidden=true -%}
-        </button>
+        <a href="{{ '/search/' | relative_url }}">{%- include svg-icon.html icon="search" id="search" w="30" h="30" hidden=true -%}</a>
+        <div class="account">
+          <a href="{{ 'login' | relative_url }}">{%- include svg-icon.html icon="login" id="login" class="account-icon" w="24" h="27" hidden=true -%}</a>
+          <a href="{{ 'logout' | relative_url }}">{%- include svg-icon.html icon="logout" id="logout" class="account-icon" w="25" h="25" hidden=true -%}</a>
+        </div>
       </div>
     </div>
   </div>

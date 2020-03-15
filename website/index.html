@@ -1,21 +1,20 @@
 ---
 layout: default
+addcity: 
+  image: 
+    alt: "A vector image of a plane flying around the Earth."
+    darkmode: 
+      alt: "A vector image of a plane flying around the Earth at night."
+      src: globe-dark
+      title: "Globe dark"
+    src: globe
+    title: Globe
+  title: "Add New Location"
 ---
 <section class="container section">
-	<div class="columns is-multiline">
-		<div class="column is-12">
-			<h1>Sunny Days</h1>
-			<form>
-				<label for="city">Enter Location for weather Information</label>
-				<input type="text" name="city">
-			</form>
-		</div>
-	</div>
-</section>
-<section class="container section">
-	<div class="columns is-multiline">
-	  <div class="column is-4">
-	    {%- include weather-card.html hidden="true" -%}
+	<div class="columns is-multiline cards">
+	  <div class="column is-4 cards__block">
+	    {%- include addcity.html -%}
 	  </div>
 	</div>
 </section>

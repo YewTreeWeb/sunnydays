@@ -1,0 +1,7 @@
+.site-header {
+  #logo {
+    @include size(37px, 100%);
+    @include size(null, 37px, max);
+    margin-right: 10px;
+  }
+}

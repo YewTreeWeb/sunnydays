@@ -1,0 +1,23 @@
+---
+layout: default
+permalink: "/search/"
+search:
+  label: "Enter Location for weather Information"
+---
+<section class="container section">
+  <div class="columns is-multiline">
+    <div class="column is-12">
+      <form>
+        <label for="city">{{ page.search.label }}</label>
+        <input type="text" name="city">
+      </form>
+    </div>
+  </div>
+</section>
+<section class="container section">
+  <div class="columns cards">
+    <div class="column is-4">
+      {%- include weather-card.html hidden=true -%}
+    </div>
+  </div>
+</section>

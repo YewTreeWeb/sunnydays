@@ -17,7 +17,6 @@ group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
   gem "jekyll-seo-tag", "~> 2.6"
   gem "jekyll-sitemap", "~> 1.4"
-  gem "jekyll-algolia", "~> 1.6"
   gem "jekyll-include-cache", "~> 0.2.0"
 end
 
@@ -30,4 +29,3 @@ end
 
 # Performance-booster for watching directories on Windows
 gem "wdm", "~> 0.1.1", :install_if => Gem.win_platform?
-

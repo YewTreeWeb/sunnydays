@@ -450,7 +450,7 @@ export const jekyll = done => {
     ? 'jekyll build --config config/jekyll.config.yml, config/jekyll.config.dev.yml'
     : 'jekyll build --config config/jekyll.config.yml'
 
-  shell.exec(`${JEKYLL_ENV} bundle exec ${build} --quiet`)
+  shell.exec(`${JEKYLL_ENV} bundle exec ${build} --trace --verbose`)
   done()
 }
 
