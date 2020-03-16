@@ -1,5 +1,8 @@
 // Import weather api
-import { getCity, getWeather } from './forcast'
+import { getCity, getForcast } from './forcast'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+dayjs.extend(utc)
 
 // Getting weather
 const cityForm = document.querySelector('form')
@@ -12,10 +15,11 @@ const img = document.querySelector('.card__image img')
 const updateUI = data => {
   // destructure properties
   //   const { cityData, weather } = data
-  const cityData = data
+  const { cityData, forcast } = data
 
   if (process.env.NODE_ENV !== 'production') {
     console.log(cityData)
+    console.log(forcast)
   }
 
   // update template
@@ -34,11 +38,20 @@ const updateUI = data => {
   }
   let country = cityData.sys.country === 'GB' ? 'UK' : cityData.sys.country
 
+  const dayTime = dayjs
+    .utc()
+    .local(cityData.dt)
+    .format('dddd - h:mA')
+  const date = dayjs
+    .utc()
+    .local(cityData.dt)
+    .format('YYYY-MM-D')
+
   content.innerHTML = `
       <header class="card__header">
           <h2>${cityData.main.temp}<sup>&deg;</sup></h2>
           <h3>${cityData.name}, ${country}</h3>
-          <time datetime="2020-03-1">11:09 AM - 1 March 2020</time>
+          <time datetime="${date}">${dayTime}</time>
       </header>
       <p>${cityData.weather[0].description}</p>
       <hr>
@@ -80,7 +93,8 @@ const updateUI = data => {
 
 const updateCity = async city => {
   const cityData = await getCity(city)
-  return cityData
+  const forcast = await getForcast(city)
+  return { cityData, forcast }
 }
 
 cityForm.addEventListener('submit', e => {
@@ -95,4 +109,13 @@ cityForm.addEventListener('submit', e => {
   updateCity(city)
     .then(data => updateUI(data))
     .catch(err => console.error(err))
+
+  // set localStorage with localForage.
+  localStorage.setItem('city', city)
 })
+
+if (localStorage.getItem('city')) {
+  updateCity(localStorage.getItem('city'))
+    .then(data => updateUI(data))
+    .catch(err => console.error(err))
+}

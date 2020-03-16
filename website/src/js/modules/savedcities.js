@@ -1,2 +1,2 @@
 // Import weather api
-import { getCity, getWeather } from './forcast'
+import { getCity } from './forcast'

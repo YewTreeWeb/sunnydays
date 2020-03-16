@@ -1,6 +1,5 @@
 // External
 import 'airbnb-browser-shims'
-import localForage from 'localforage'
 
 // Internal
 import './modules/helpers'

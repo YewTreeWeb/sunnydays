@@ -50,7 +50,8 @@ module.exports = {
       jQuery: 'jquery',
       cloudinary: 'cloudinary-core',
       browser: 'browser',
-      breakpoints: 'breakpoints'
+      breakpoints: 'breakpoints',
+      localForage: 'localforage'
     })
   ]
 }
