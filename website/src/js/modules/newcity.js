@@ -49,9 +49,9 @@ const updateUI = data => {
 
   content.innerHTML = `
       <header class="card__header">
-          <h2>${cityData.main.temp}<sup>&deg;</sup></h2>
-          <h3>${cityData.name}, ${country}</h3>
-          <time datetime="${date}">${dayTime}</time>
+        <h2>${cityData.main.temp}<sup>&deg;</sup></h2>
+        <h3>${cityData.name}, ${country}</h3>
+        <time datetime="${date}">${dayTime}</time>
       </header>
       <p>${cityData.weather[0].description}</p>
       <hr>
