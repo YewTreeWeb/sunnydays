@@ -1,5 +1,7 @@
 // Add API key from OpenWeather.
 const key = '312fc733d3070bc27fef36b8a58fa030'
+// Add API key form Google TimeZone
+const gKey = 'AIzaSyDa6qF43QFDOxJzipKKEMqdx2xts0B15A8'
 
 // Get city weather
 export const getCity = async city => {
@@ -68,5 +70,22 @@ export const getCo = async (lat, lon) => {
   }
 
   // return data[0] With AccuWeather
+  return data
+}
+
+// Get TimeZone
+export const getTimeZone = async (lat, lon, timezone) => {
+  const base = 'https://maps.googleapis.com/maps/api/timezone/json'
+  const query = `?location=${lat},${lon}&timestamp=${timezone}&key=${gKey}`
+
+  const response = await fetch(base + query)
+  const data = await response.json()
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(lat)
+    console.log(lon)
+    console.log(timezone)
+  }
+
   return data
 }

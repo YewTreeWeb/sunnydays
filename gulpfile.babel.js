@@ -1,7 +1,13 @@
-import { src, dest, watch, lastRun, series, parallel } from 'gulp'
+import {
+  src,
+  dest,
+  watch,
+  lastRun,
+  series,
+  parallel
+} from 'gulp'
 import autoprefixer from 'autoprefixer'
 import rucksack from 'rucksack-css'
-import cssvariables from 'postcss-css-variables'
 import webpack from 'webpack'
 import webpackStream from 'webpack-stream'
 import named from 'vinyl-named'
@@ -12,6 +18,7 @@ import plugins from 'gulp-load-plugins'
 import del from 'del'
 import read from 'read-yaml'
 import shell from 'shelljs'
+import jpegtran from 'imagemin-jpegtran'
 import pngquant from 'imagemin-pngquant'
 import zopfli from 'imagemin-zopfli'
 import giflossy from 'imagemin-giflossy'
@@ -47,9 +54,9 @@ const config = read.sync('./config/gulp.config.yml')
  */
 export const env = done => {
   console.log(
-    prod
-      ? 'Running Gulp & Jekyll in production'
-      : 'Running Gulp & Jekyll in development'
+    prod ?
+    'Running Gulp & Jekyll in production' :
+    'Running Gulp & Jekyll in development'
   )
   done()
 }
@@ -58,7 +65,9 @@ export const env = done => {
  * Styles
  */
 export const styles = () => {
-  return src(config.styles.src, { allowEmpty: true })
+  return src(config.styles.src, {
+      allowEmpty: true
+    })
     .pipe($.plumber())
     .pipe($.if(!prod, $.sourcemaps.init())) // Start sourcemap.
     .pipe(
@@ -130,7 +139,9 @@ export const styles = () => {
  * Scripts
  */
 export const js = () => {
-  return src(config.js.src, { allowEmpty: true })
+  return src(config.js.src, {
+      allowEmpty: true
+    })
     .pipe($.plumber())
     .pipe(named())
     .pipe(
@@ -175,8 +186,7 @@ export const vendorTask = () => {
   }
 
   return src(
-    vendors.map(dependency => './node_modules/' + dependency + '/**/*.*'),
-    {
+    vendors.map(dependency => './node_modules/' + dependency + '/**/*.*'), {
       base: './node_modules/'
     }
   ).pipe(dest(config.vendors.dist))
@@ -186,7 +196,10 @@ export const vendorTask = () => {
  * Images
  */
 export const images = () => {
-  return src(config.image.src, { allowEmpty: true, since: lastRun(images) })
+  return src(config.image.src, {
+      allowEmpty: true,
+      since: lastRun(images)
+    })
     .pipe($.plumber())
     .pipe($.changed(config.jekyllDist + config.image.dist))
     .pipe(
@@ -195,7 +208,7 @@ export const images = () => {
         $.cache(
           $.imagemin(
             [
-              $.imagemin.jpegtran({
+              jpegtran({
                 progressive: true
               }),
               pngquant({
@@ -211,8 +224,7 @@ export const images = () => {
                 lossy: 2
               }),
               $.imagemin.svgo({
-                plugins: [
-                  {
+                plugins: [{
                     removeViewBox: true
                   },
                   {
@@ -223,8 +235,7 @@ export const images = () => {
               mozjpeg({
                 quality: 90
               })
-            ],
-            {
+            ], {
               verbose: true
             }
           )
@@ -266,8 +277,7 @@ export const sprite = () => {
             speed: 1,
             quality: [0.5, 0.5] // lossy settings
           })
-        ],
-        {
+        ], {
           verbose: true
         }
       )
@@ -306,7 +316,9 @@ export const sprite = () => {
  * Convert to .webp
  */
 export const webpImg = () => {
-  return src(config.image.webp, { since: lastRun(webpImg) })
+  return src(config.image.webp, {
+      since: lastRun(webpImg)
+    })
     .pipe($.plumber())
     .pipe(
       $.cache(
@@ -332,9 +344,9 @@ export const webpImg = () => {
  */
 export const svgSprites = () => {
   return src(config.image.svgsprites, {
-    allowEmpty: true,
-    since: lastRun(svgSprites)
-  })
+      allowEmpty: true,
+      since: lastRun(svgSprites)
+    })
     .pipe($.plumber())
     .pipe($.svgmin())
     .pipe(
@@ -350,10 +362,12 @@ export const svgSprites = () => {
     )
     .pipe(
       $.cheerio({
-        run: function($, file) {
+        run: function ($, file) {
           $('svg').attr('style', 'display:none!important')
         },
-        parserOptions: { xmlMode: true }
+        parserOptions: {
+          xmlMode: true
+        }
       })
     )
     .pipe(
@@ -375,9 +389,9 @@ export const svgSprites = () => {
  */
 export const cloudinary = () => {
   return src(config.cloudinary.src, {
-    allowEmpty: true,
-    since: lastRun(cloudinary)
-  })
+      allowEmpty: true,
+      since: lastRun(cloudinary)
+    })
     .pipe($.plumber())
     .pipe(
       $.cloudinary({
@@ -427,7 +441,9 @@ export const html = () => {
  * Fonts
  */
 export const fonts = done => {
-  src(config.fonts.src, { allowEmpty: true })
+  src(config.fonts.src, {
+      allowEmpty: true
+    })
     .pipe($.plumber())
     .pipe($.if(!prod, dest(config.distAssets + config.fonts.dist)))
     .pipe(dest(config.jekyllDist + config.fonts.dist))
@@ -446,9 +462,9 @@ export const fonts = done => {
 // Run Jekyll build
 export const jekyll = done => {
   const JEKYLL_ENV = prod ? 'JEKYLL_ENV=production' : 'JEKYLL_ENV=development'
-  const build = !prod
-    ? 'jekyll build --config config/jekyll.config.yml, config/jekyll.config.dev.yml'
-    : 'jekyll build --config config/jekyll.config.yml'
+  const build = !prod ?
+    'jekyll build --config config/jekyll.config.yml, config/jekyll.config.dev.yml' :
+    'jekyll build --config config/jekyll.config.yml'
 
   shell.exec(`${JEKYLL_ENV} bundle exec ${build} --trace --verbose`)
   done()
@@ -538,25 +554,23 @@ export const serviceWorker = () => {
       '**/*.{yml,html,css,eot,svg,ttf,woff,woff2,js,xml,txt,json}'
     ],
     // Define runtime caching rules.
-    runtimeCaching: [
-      {
-        // Match any request that ends with .png, .jpg, .jpeg or .svg.
-        urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
+    runtimeCaching: [{
+      // Match any request that ends with .png, .jpg, .jpeg or .svg.
+      urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
 
-        // Apply a cache-first strategy.
-        handler: 'CacheFirst',
+      // Apply a cache-first strategy.
+      handler: 'CacheFirst',
 
-        options: {
-          // Use a custom cache name.
-          cacheName: 'images',
+      options: {
+        // Use a custom cache name.
+        cacheName: 'images',
 
-          // Only cache 10 images.
-          expiration: {
-            maxEntries: 10
-          }
+        // Only cache 10 images.
+        expiration: {
+          maxEntries: 10
         }
       }
-    ]
+    }]
   })
 }
 
