@@ -85,6 +85,7 @@ export const getTimeZone = async (lat, lon, timezone) => {
     console.log(lat)
     console.log(lon)
     console.log(timezone)
+    console.log(data)
   }
 
   return data

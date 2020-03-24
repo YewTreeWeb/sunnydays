@@ -23,7 +23,8 @@ const updateUI = data => {
   //   const { cityData, weather } = data
   const {
     cityData,
-    forcast
+    forcast,
+    timeZone
   } = data
 
   if (process.env.NODE_ENV !== 'production') {
@@ -54,7 +55,6 @@ const updateUI = data => {
 
   /// Get the date and time of the forcast.
   const tz = new Date(cityData.timezone); // Get timezone
-  // const time = await getTimeZone(cityData.coord.lat, cityData.coord.lon, cityData.timezone)
   const dayTime = dayjs()
     // .utc(tz)
     .local(tz)
@@ -114,9 +114,11 @@ const updateUI = data => {
 const updateCity = async city => {
   const cityData = await getCity(city)
   const forcast = await getForcast(city)
+  const timeZone = await getTimeZone(cityData.coord.lat, cityData.coord.lon, cityData.timezone)
   return {
     cityData,
-    forcast
+    forcast,
+    timeZone
   }
 }
 
