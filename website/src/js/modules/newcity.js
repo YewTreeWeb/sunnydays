@@ -49,6 +49,7 @@ const updateUI = (data) => {
   let country = cityData.sys.country === 'GB' ? 'UK' : cityData.sys.country
 
   /// Get the date and time of the forcast.
+  const time = dayjs(new Date()).format('H')
   const dayTime = dayjs(
     new Date().toLocaleString('en-UK', { timeZone: timeZone.timeZoneId })
   ).format('dddd - h:mA')
@@ -56,11 +57,27 @@ const updateUI = (data) => {
     new Date().toLocaleString('en-UK', { timeZone: timeZone.timeZoneId })
   ).format('YYYY-MM-D')
 
+  /// Set class for time of day.
+  let dayNight
+  if ((time >= 21 && time <= 23) || (time >= 0 && time < 5)) {
+    dayNight = 'night'
+  } else if (time >= 5 && time <= 7) {
+    dayNight = 'sunrise'
+  } else if (time > 7 && time <= 18) {
+    dayNight = 'day'
+  } else {
+    dayNight = 'sunset'
+  }
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`${time} = ${dayNight}`)
+  }
+
   content.innerHTML = `
-      <header class="card__header">
+      <header class="card__header card__header--${dayNight}">
         <h2>${cityData.main.temp}<sup>&deg;</sup></h2>
         <h3>${cityData.name}, ${country}</h3>
-        <time datetime="${date}">${dayTime}</time>
+        <time datetime="${date}">${dayTime}0</time>
       </header>
       <p>${cityData.weather[0].description}</p>
       <hr>
