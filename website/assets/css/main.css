@@ -1,4 +1,4 @@
-/*! bulma.io v0.8.0 | MIT License | github.com/jgthms/bulma */
+/*! bulma.io v0.8.1 | MIT License | github.com/jgthms/bulma */
 
 @-webkit-keyframes spinAround
 {
@@ -3744,10 +3744,22 @@ fieldset[disabled] .button
     background-color: #00d1b2;
 }
 
+.notification.is-primary.is-light
+{
+    color: #00947e;
+    background-color: #ebfffc;
+}
+
 .notification.is-link
 {
     color: #fff;
     background-color: #3273dc;
+}
+
+.notification.is-link.is-light
+{
+    color: #2160c4;
+    background-color: #eef3fc;
 }
 
 .notification.is-info
@@ -3756,10 +3768,22 @@ fieldset[disabled] .button
     background-color: #3298dc;
 }
 
+.notification.is-info.is-light
+{
+    color: #1d72aa;
+    background-color: #eef6fc;
+}
+
 .notification.is-success
 {
     color: #fff;
     background-color: #48c774;
+}
+
+.notification.is-success.is-light
+{
+    color: #257942;
+    background-color: #effaf3;
 }
 
 .notification.is-warning
@@ -3769,10 +3793,22 @@ fieldset[disabled] .button
     background-color: #ffdd57;
 }
 
+.notification.is-warning.is-light
+{
+    color: #947600;
+    background-color: #fffbeb;
+}
+
 .notification.is-danger
 {
     color: #fff;
     background-color: #f14668;
+}
+
+.notification.is-danger.is-light
+{
+    color: #cc0f35;
+    background-color: #feecf0;
 }
 
 .progress
@@ -4900,7 +4936,7 @@ a.tag:hover
 .textarea,
 .select select
 {
-    color: #363636;
+    color: inherit;
     border-color: #dbdbdb;
     border-radius: 4px;
     background-color: white;
@@ -4910,32 +4946,28 @@ a.tag:hover
 .textarea::-moz-placeholder,
 .select select::-moz-placeholder
 {
-    color: #363636;
-    color: rgba(54, 54, 54, .3);
+    color: inherit;
 }
 
 .input::-webkit-input-placeholder,
 .textarea::-webkit-input-placeholder,
 .select select::-webkit-input-placeholder
 {
-    color: #363636;
-    color: rgba(54, 54, 54, .3);
+    color: inherit;
 }
 
 .input:-moz-placeholder,
 .textarea:-moz-placeholder,
 .select select:-moz-placeholder
 {
-    color: #363636;
-    color: rgba(54, 54, 54, .3);
+    color: inherit;
 }
 
 .input:-ms-input-placeholder,
 .textarea:-ms-input-placeholder,
 .select select:-ms-input-placeholder
 {
-    color: #363636;
-    color: rgba(54, 54, 54, .3);
+    color: inherit;
 }
 
 .input:hover,
@@ -8516,8 +8548,6 @@ a.navbar-item.is-active,
 
 .navbar-item
 {
-    display: block;
-
     -webkit-box-flex: 0;
     -ms-flex-positive: 0;
     flex-grow: 0;
@@ -10905,10 +10935,8 @@ label.panel-block:hover
 
 .hero.is-small .hero-body
 {
-    padding-top: 24px;
-    padding-top: 1.5rem;
-    padding-bottom: 24px;
-    padding-bottom: 1.5rem;
+    padding: 24px;
+    padding: 1.5rem;
 }
 
 .hero.is-halfheight .hero-body,
@@ -12571,14 +12599,12 @@ ol.no-style
 
     .hero.is-medium .hero-body
     {
-        padding-top: 9rem;
-        padding-bottom: 9rem;
+        padding: 9rem 1.5rem;
     }
 
     .hero.is-large .hero-body
     {
-        padding-top: 18rem;
-        padding-bottom: 18rem;
+        padding: 18rem 1.5rem;
     }
 
     .hero-buttons

@@ -1,5 +1,9 @@
 // Import weather api
-import { getCity, getForcast } from './forcast'
+import {
+  getCity,
+  getForcast,
+  getTimeZone
+} from './forcast'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 dayjs.extend(utc)
@@ -10,24 +14,34 @@ const card = document.querySelector('.card')
 const content = document.querySelector('.card__content')
 const time = document.querySelector('.card__header time')
 const img = document.querySelector('.card__image img')
+const savedCity = document.querySelector('.card__save button')
+
 
 // Output all data to DOM.
 const updateUI = data => {
   // destructure properties
   //   const { cityData, weather } = data
-  const { cityData, forcast } = data
+  const {
+    cityData,
+    forcast,
+    timeZone
+  } = data
 
   if (process.env.NODE_ENV !== 'production') {
     console.log(cityData)
     console.log(forcast)
+    console.log(timeZone)
   }
 
   // update template
-  let precipitationType =
-    cityData.weather[0].main !== 'Rain' || cityData.weather[0].main !== 'Snow'
-      ? 'Rain'
-      : cityData.weather[0].main
 
+  /// Set the type of precipitation expected.
+  let precipitationType =
+    cityData.weather[0].main !== 'Rain' || cityData.weather[0].main !== 'Snow' ?
+    'Rain' :
+    cityData.weather[0].main
+
+  /// Display the amount of percipitation.
   let precipitation = null
   if (cityData.rain) {
     precipitation = cityData.rain['1h']
@@ -36,18 +50,20 @@ const updateUI = data => {
   } else {
     precipitation = '0'
   }
+
+  /// Change GB to UK.
   let country = cityData.sys.country === 'GB' ? 'UK' : cityData.sys.country
 
-  const dayTime = dayjs
-    .utc(
-      new Date().toLocaleString('en-US', {
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-      })
-    )
+  /// Get the date and time of the forcast.
+  const tz = new Date(cityData.timezone); // Get timezone
+  const dayTime = dayjs()
+    // .utc(tz)
+    .local(tz)
     .format('dddd - h:mA')
+  // dayjs(new Date().toLocaleString("en-US", {timeZone: "America/New_York"})).format('h:mA')
   const date = dayjs
-    .utc(cityData.timezone)
-    // .local()
+    .utc()
+    .local(tz)
     .format('YYYY-MM-D')
 
   content.innerHTML = `
@@ -94,12 +110,21 @@ const updateUI = data => {
   }
 }
 
+// Get the data of the weather for the location.
+// Uses exported functions from focast.js
 const updateCity = async city => {
   const cityData = await getCity(city)
   const forcast = await getForcast(city)
-  return { cityData, forcast }
+  const timeZone = await getTimeZone(cityData.coord.lat, cityData.coord.lon, cityData.timezone)
+  return {
+    cityData,
+    forcast,
+    timeZone
+  }
 }
 
+// On form submit update the HTML content with the API data
+// Save entered location to localStorage
 cityForm.addEventListener('submit', e => {
   // prevent the default submit.
   e.preventDefault()
@@ -117,8 +142,18 @@ cityForm.addEventListener('submit', e => {
   localStorage.setItem('city', city)
 })
 
+// Get city from localStorage
 if (localStorage.getItem('city')) {
   updateCity(localStorage.getItem('city'))
     .then(data => updateUI(data))
     .catch(err => console.error(err))
 }
+
+// If city is saved add location to localForage
+savedCity.addEventListener('click', () => {
+  const city = document.querySelector('.card__header h3').innerText
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(city)
+  }
+  localForage.setItem("cities", city);
+})
