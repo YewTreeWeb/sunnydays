@@ -39,19 +39,22 @@ const updateUI = data => {
   let country = cityData.sys.country === 'GB' ? 'UK' : cityData.sys.country
 
   const dayTime = dayjs
-    .utc()
-    .local(cityData.dt)
+    .utc(
+      new Date().toLocaleString('en-US', {
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+      })
+    )
     .format('dddd - h:mA')
   const date = dayjs
-    .utc()
-    .local(cityData.dt)
+    .utc(cityData.timezone)
+    // .local()
     .format('YYYY-MM-D')
 
   content.innerHTML = `
       <header class="card__header">
         <h2>${cityData.main.temp}<sup>&deg;</sup></h2>
         <h3>${cityData.name}, ${country}</h3>
-        <time datetime="${date}">${dayTime}</time>
+        <time datetime="${date}">${dayTime}${cityData.timezone}</time>
       </header>
       <p>${cityData.weather[0].description}</p>
       <hr>
