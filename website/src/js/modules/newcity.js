@@ -1,12 +1,11 @@
 // Import weather api
-import {
-  getCity,
-  getForcast,
-  getTimeZone
-} from './forcast'
+import Forcast from './forcast'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 dayjs.extend(utc)
+
+// Call new forcast class
+const forcast = new Forcast()
 
 // Getting weather
 const cityForm = document.querySelector('form')
@@ -16,16 +15,11 @@ const time = document.querySelector('.card__header time')
 const img = document.querySelector('.card__image img')
 const savedCity = document.querySelector('.card__save button')
 
-
 // Output all data to DOM.
-const updateUI = data => {
+const updateUI = (data) => {
   // destructure properties
   //   const { cityData, weather } = data
-  const {
-    cityData,
-    forcast,
-    timeZone
-  } = data
+  const { cityData, forcast, timeZone } = data
 
   if (process.env.NODE_ENV !== 'production') {
     console.log(cityData)
@@ -37,9 +31,9 @@ const updateUI = data => {
 
   /// Set the type of precipitation expected.
   let precipitationType =
-    cityData.weather[0].main !== 'Rain' || cityData.weather[0].main !== 'Snow' ?
-    'Rain' :
-    cityData.weather[0].main
+    cityData.weather[0].main !== 'Rain' || cityData.weather[0].main !== 'Snow'
+      ? 'Rain'
+      : cityData.weather[0].main
 
   /// Display the amount of percipitation.
   let precipitation = null
@@ -55,22 +49,18 @@ const updateUI = data => {
   let country = cityData.sys.country === 'GB' ? 'UK' : cityData.sys.country
 
   /// Get the date and time of the forcast.
-  const tz = new Date(cityData.timezone); // Get timezone
-  const dayTime = dayjs()
-    // .utc(tz)
-    .local(tz)
-    .format('dddd - h:mA')
-  // dayjs(new Date().toLocaleString("en-US", {timeZone: "America/New_York"})).format('h:mA')
-  const date = dayjs
-    .utc()
-    .local(tz)
-    .format('YYYY-MM-D')
+  const dayTime = dayjs(
+    new Date().toLocaleString('en-UK', { timeZone: timeZone.timeZoneId })
+  ).format('dddd - h:mA')
+  const date = dayjs(
+    new Date().toLocaleString('en-UK', { timeZone: timeZone.timeZoneId })
+  ).format('YYYY-MM-D')
 
   content.innerHTML = `
       <header class="card__header">
         <h2>${cityData.main.temp}<sup>&deg;</sup></h2>
         <h3>${cityData.name}, ${country}</h3>
-        <time datetime="${date}">${dayTime}${cityData.timezone}</time>
+        <time datetime="${date}">${dayTime}</time>
       </header>
       <p>${cityData.weather[0].description}</p>
       <hr>
@@ -110,22 +100,9 @@ const updateUI = data => {
   }
 }
 
-// Get the data of the weather for the location.
-// Uses exported functions from focast.js
-const updateCity = async city => {
-  const cityData = await getCity(city)
-  const forcast = await getForcast(city)
-  const timeZone = await getTimeZone(cityData.coord.lat, cityData.coord.lon, cityData.timezone)
-  return {
-    cityData,
-    forcast,
-    timeZone
-  }
-}
-
 // On form submit update the HTML content with the API data
 // Save entered location to localStorage
-cityForm.addEventListener('submit', e => {
+cityForm.addEventListener('submit', (e) => {
   // prevent the default submit.
   e.preventDefault()
 
@@ -134,9 +111,10 @@ cityForm.addEventListener('submit', e => {
   cityForm.reset()
 
   // update ui with city
-  updateCity(city)
-    .then(data => updateUI(data))
-    .catch(err => console.error(err))
+  forcast
+    .updateCity(city)
+    .then((data) => updateUI(data))
+    .catch((err) => console.error(err))
 
   // set localStorage with localForage.
   localStorage.setItem('city', city)
@@ -144,9 +122,10 @@ cityForm.addEventListener('submit', e => {
 
 // Get city from localStorage
 if (localStorage.getItem('city')) {
-  updateCity(localStorage.getItem('city'))
-    .then(data => updateUI(data))
-    .catch(err => console.error(err))
+  forcast
+    .updateCity(localStorage.getItem('city'))
+    .then((data) => updateUI(data))
+    .catch((err) => console.error(err))
 }
 
 // If city is saved add location to localForage
@@ -155,5 +134,5 @@ savedCity.addEventListener('click', () => {
   if (process.env.NODE_ENV !== 'production') {
     console.log(city)
   }
-  localForage.setItem("cities", city);
+  localForage.setItem('cities', city)
 })
