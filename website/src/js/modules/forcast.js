@@ -25,10 +25,12 @@ class Forcast {
       cityData.coord.lon,
       cityData.timezone
     )
+    const uv = await this.getUv(cityData.coord.lat, cityData.coord.lon)
     return {
       cityData,
       forcast,
       timeZone,
+      uv,
     }
   }
   // Get city weather
@@ -48,7 +50,7 @@ class Forcast {
   // Get city forcast
   async getForcast(city) {
     const query = `?q=${city}&appid=${this.key}&units=metric`
-    const response = await fetch(this.cityURI + query)
+    const response = await fetch(this.forcastURI + query)
     const data = await response.json()
 
     if (process.env.NODE_ENV !== 'production') {
@@ -74,25 +76,6 @@ class Forcast {
     return data
   }
 
-  // Get city air pollution
-  async getCo(lat, lon) {
-    const date = new Date()
-    const currentDate = dayjs(date).format()
-    const query = `${lat},${lon}/current.json?appid=${this.key}`
-
-    const response = await fetch(this.coURI + query)
-    const data = await response.json()
-
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(currentDate)
-      console.log(lat)
-      console.log(lon)
-    }
-
-    // return data[0] With AccuWeather
-    return data
-  }
-
   // Get TimeZone
   async getTimeZone(lat, lon, timezone) {
     const query = `?location=${lat},${lon}&timestamp=${timezone}&key=${this.gKey}`
@@ -104,7 +87,6 @@ class Forcast {
       console.log(lat)
       console.log(lon)
       console.log(timezone)
-      console.log(data)
     }
 
     return data

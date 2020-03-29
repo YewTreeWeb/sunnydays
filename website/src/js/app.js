@@ -46,6 +46,16 @@ if (window.matchMedia) {
   }
 }
 
+// Set time of day class
+const localTime = new Date()
+let dayNight
+if ((localTime >= 21 && localTime < 24) || (localTime >= 0 && localTime < 5)) {
+  dayNight = 'night'
+} else if (localTime > 7 && localTime <= 18) {
+  dayNight = 'day'
+} else {
+  dayNight = 'sunrise-sunset'
+}
 // Switch between dark and light mode.
 /*
 const switchTheme = document.getElementById('switch-theme')

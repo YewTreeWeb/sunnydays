@@ -11,110 +11,197 @@ const forcast = new Forcast()
 const cityForm = document.querySelector('form')
 const card = document.querySelector('.card')
 const content = document.querySelector('.card__content')
-const time = document.querySelector('.card__header time')
-const img = document.querySelector('.card__image img')
+const contentHeader = content.querySelectorAll('.card__header .column')[1]
 const savedCity = document.querySelector('.card__save button')
 
 // Output all data to DOM.
 const updateUI = (data) => {
   // destructure properties
   //   const { cityData, weather } = data
-  const { cityData, forcast, timeZone } = data
+  const { cityData, forcast, timeZone, uv } = data
 
   if (process.env.NODE_ENV !== 'production') {
+    console.log('current')
     console.log(cityData)
+    console.log('forcast')
     console.log(forcast)
     console.log(timeZone)
+    console.log(uv)
   }
 
   // update template
 
   /// Set the type of precipitation expected.
-  let precipitationType =
-    cityData.weather[0].main !== 'Rain' || cityData.weather[0].main !== 'Snow'
-      ? 'Rain'
-      : cityData.weather[0].main
+  const precipitation = (type) => {
+    let rainType = null
+    let rainAmount = null
+    if (type === 'Rain' || type === 'Snow') {
+      rainType = type
+      if (cityData.rain) {
+        rainAmount = cityData.rain['1h']
+        rainAmount = rainAmount + 'mm'
+      } else if (cityData.snow) {
+        rainAmount = cityData.snow['1h']
+        rainAmount = rainAmount + 'mm'
+      } else {
+        rainAmount = cityData.weather[0].description
+      }
+    } else {
+      rainType = 'Rain'
+      rainAmount = '0mm'
+    }
 
-  /// Display the amount of percipitation.
-  let precipitation = null
-  if (cityData.rain) {
-    precipitation = cityData.rain['1h']
-  } else if (cityData.snow) {
-    precipitation = cityData.snow['1h']
-  } else {
-    precipitation = '0'
+    return `<p>${rainType}</p><p>${rainAmount}</p>`
   }
 
-  /// Change GB to UK.
-  let country = cityData.sys.country === 'GB' ? 'UK' : cityData.sys.country
+  /// Set UV index
+  const uvIndex = (rating) => {
+    let uvRating
+    if (rating >= 3 && rating < 6) {
+      uvRating = 'Moderate'
+    } else if (rating >= 6 && rating < 8) {
+      uvRating = 'High'
+    } else if (rating >= 8 && rating < 11) {
+      uvRating = 'Very High'
+    } else if (rating > 10) {
+      uvRating = 'Extreme'
+    } else {
+      uvRating = 'Low'
+    }
+
+    return uvRating
+  }
 
   /// Get the date and time of the forcast.
   const time = dayjs(new Date()).format('H')
   const dayTime = dayjs(
     new Date().toLocaleString('en-UK', { timeZone: timeZone.timeZoneId })
-  ).format('dddd - h:mA')
+  ).format('dddd - h:mmA')
   const date = dayjs(
     new Date().toLocaleString('en-UK', { timeZone: timeZone.timeZoneId })
   ).format('YYYY-MM-D')
 
+  /// Generating 5 day forcast
+  const dailyForcast = () => {
+    // let forcasts = document.createElement('div')
+    let forcasts = ''
+    // forcasts.textContent = 'hello world'
+    forcasts += `
+      <div class="forcasts__day">
+        <div class="columns">
+          <div class="column is-3">
+            <h3>Day</h3>
+            <p>Weather</p>
+            <img src="" alt="">
+            <p>Wind</p>
+            <p>2mph</p>
+          </div>
+          <div class="column is-3">
+            <img src="" alt="">
+            <p>High</p>
+            <p>30<sup>&deg;</sup></p>
+            <img src="" alt="">
+            <p>Rain</p>
+            <p>0%</p>
+          </div>
+          <div class="column is-6">
+            <h3>Temp<sup>&deg;</sup></h3>
+            <img src="" alt="">
+          </div>
+        </div>
+      </div>
+    `
+    // if ()
+    console.log(forcasts)
+    return forcasts
+  }
+
   /// Set class for time of day.
-  let dayNight
+  let cityDayNight
   if ((time >= 21 && time <= 23) || (time >= 0 && time < 5)) {
-    dayNight = 'night'
+    cityDayNight = 'night'
   } else if (time >= 5 && time <= 7) {
-    dayNight = 'sunrise'
+    cityDayNight = 'sunrise'
   } else if (time > 7 && time <= 18) {
-    dayNight = 'day'
+    cityDayNight = 'day'
   } else {
-    dayNight = 'sunset'
+    cityDayNight = 'sunset'
   }
 
   if (process.env.NODE_ENV !== 'production') {
-    console.log(`${time} = ${dayNight}`)
+    console.log(`${time} = ${cityDayNight}`)
   }
 
+  /// Generate HTML.
   content.innerHTML = `
-      <header class="card__header card__header--${dayNight}">
+    <header class="card__header .columns">
+      <div class="column">
         <h2>${cityData.main.temp}<sup>&deg;</sup></h2>
-        <h3>${cityData.name}, ${country}</h3>
-        <time datetime="${date}">${dayTime}0</time>
-      </header>
-      <p>${cityData.weather[0].description}</p>
-      <hr>
-      <footer class="card__footer">
-          <div class="columns card__details">
-              <div class="column card__detail">
-                  <img src="" alt="">
-                  <p>Wind</p>
-                  <p>${cityData.wind.speed}mph</p>
-              </div>
-              <div class="column card__detail">
-                  <img src="" alt="">
-                  <p>High</p>
-                  <p>${cityData.main.temp_max}<sup>&deg;</sup></p>
-              </div>
-              <div class="column card__detail">
-                  <img src="" alt="">
-                  <p>${precipitationType}</p>
-                  <p>${precipitation}mm</p>
-              </div>
-          </div>
-      </footer>
-    `
-
-  //   let timeSrc = null
-  //   if (weather.IsDayTime) {
-  //     timeSrc = '/assets/images/spring-day.webp'
-  //   } else {
-  //     timeSrc = '/assets/images/spring-night.webp'
-  //   }
-
-  //   img.setAttribute('src', timeSrc)
+        <h3>${cityData.name}, ${cityData.sys.country}</h3>
+        <time datetime="${date}">${dayTime}</time>
+      </div>
+      <div class="column">
+        ${dailyForcast()}
+      </div>
+    </header>
+    <p>${cityData.weather[0].description}</p>
+    <hr>
+    <footer class="card__footer">
+      <div class="columns card__details">
+        <div class="column card__detail">
+          <img src="" alt="">
+          <p>Wind</p>
+          <p>${cityData.wind.speed}mph</p>
+        </div>
+        <div class="column card__detail">
+          <img src="" alt="">
+          <p>High</p>
+          <p>${cityData.main.temp_max}<sup>&deg;</sup></p>
+        </div>
+        <div class="column card__detail">
+          <img src="" alt="">
+          ${precipitation(cityData.weather[0].main)}
+        </div>
+        <div class="column card__detail">
+          <img src="" alt="">
+          <p>Humidity</p>
+          <p>${cityData.main.humidity}&percnt;</p>
+        </div>
+        <div class="column card__detail">
+          <img src="" alt="">
+          <p>UV</p>
+          <p>${uvIndex(uv.value)}</p>
+        </div>
+        <div class="column card__detail">
+          <img src="" alt="">
+          <p>Sunrise</p>
+          <p><time datetime="${date}">${dayjs
+    .unix(cityData.sys.sunrise)
+    .format('h:mA')}</time></p>
+        </div>
+        <div class="column card__detail">
+          <img src="" alt="">
+          <p>Sunset</p>
+          <p><time datetime="${date}">${dayjs
+    .unix(cityData.sys.sunset)
+    .format('h:mA')}</time></p>
+        </div>
+      </div>
+    </footer>
+  `
 
   // Show weather card if card doesn't have hidden class
   if (card.classList.contains('is-hidden')) {
     card.classList.remove('is-hidden')
   }
+
+  // Add time of day class to card.
+  card.classList.toggle(`card--${cityDayNight}`)
+
+  // Add class for weather image.
+  card
+    .querySelector('.card__image img')
+    .classList.toggle(`${cityData.weather[0].main}`)
 }
 
 // On form submit update the HTML content with the API data
