@@ -42,18 +42,10 @@
   {%- endif -%}
   <script src="{{ '/assets/js/breakpoints.min.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/browser.min.js' | relative_url }}" defer></script>
+  {%- comment -%} <script src="{{ '/assets/js/vendors~newcity.bundle.js' | relative_url }}" defer></script> {%- endcomment -%}
+  {%- comment -%} <script src="{{ '/assets/js/newcity.bundle.js' | relative_url }}" defer></script> {%- endcomment -%}
+  <script src="{{ '/assets/js/savedcities.bundle.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/app.js' | relative_url }}" defer></script>
-  {%- comment -%}
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
-  <script src="/__/firebase/7.10.0/firebase-app.js"></script>
-
-  <!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-  <script src="/__/firebase/7.10.0/firebase-analytics.js"></script>
-
-  <!-- Initialize Firebase -->
-  <script src="/__/firebase/init.js"></script>
-  {%- endcomment -%}
 
   <script src="//instant.page/3.0.0" type="module" defer
     integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>

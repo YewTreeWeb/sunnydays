@@ -12,8 +12,6 @@ class Forcast {
     this.timeZoneURI = 'https://maps.googleapis.com/maps/api/timezone/json'
     // UV
     this.uvURI = 'https://api.openweathermap.org/data/2.5/uvi'
-    // Pollution
-    this.coURI = 'https://api.openweathermap.org/pollution/v1/co/'
   }
   // Get the data of the weather for the location.
   // Uses exported functions from focast.js

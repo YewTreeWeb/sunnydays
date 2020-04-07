@@ -1,23 +1,9 @@
-// Import weather api
-import Forcast from './forcast'
 // Import dayJS for date, time formatting
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 dayjs.extend(utc)
 
-// Call new forcast class
-const forcast = new Forcast()
-
-// Getting weather
-const cityForm = document.querySelector('form')
-const card = document.querySelector('.card')
-const content = document.querySelector('.card__content')
-const contentHeader = content.querySelectorAll('.card__header .column')[1]
-const savedCity = document.querySelector('.card__save button')
-const cities = []
-
-// Output all data to DOM.
-const updateUI = (data) => {
+export const updateUI = (data, content) => {
   // destructure properties
   //   const { cityData, weather } = data
   const { cityData, forcast, timeZone, uv } = data
@@ -32,7 +18,7 @@ const updateUI = (data) => {
   }
 
   // update template
-
+  const card = document.querySelector('.card')
   /// Set the type of precipitation expected.
   const precipitation = (type) => {
     let rainType = null
@@ -205,43 +191,3 @@ const updateUI = (data) => {
     .querySelector('.card__image img')
     .classList.toggle(`${cityData.weather[0].main}`)
 }
-
-// On form submit update the HTML content with the API data
-// Save entered location to localStorage
-cityForm.addEventListener('submit', (e) => {
-  // prevent the default submit.
-  e.preventDefault()
-
-  // get city value.
-  const city = cityForm.city.value.trim()
-  cityForm.reset()
-
-  // update ui with city
-  forcast
-    .updateCity(city)
-    .then((data) => updateUI(data))
-    .catch((err) => console.error(err))
-
-  // set localStorage with localForage.
-  localStorage.setItem('city', city)
-})
-
-// Get city from localStorage
-if (localStorage.getItem('city')) {
-  forcast
-    .updateCity(localStorage.getItem('city'))
-    .then((data) => updateUI(data))
-    .catch((err) => console.error(err))
-}
-
-// If city is saved add location to localForage
-savedCity.addEventListener('click', () => {
-  const city = document.querySelector('.card__header h3').innerText
-  if (process.env.NODE_ENV !== 'production') {
-    console.log('Saved ' + city)
-  }
-  cities.push({
-    city: city,
-  })
-  localForage.setItem('cities', cities)
-})
