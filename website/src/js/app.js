@@ -4,36 +4,30 @@ import 'airbnb-browser-shims'
 // Internal
 import './modules/helpers'
 import './modules/background'
-// import './modules/savedcities'
-// import './modules/newcity'
 
 // Dynamic Import local modules
-// const importCities = async () => {}
-// importCities()
-//   .then(() => {
-//     console.log('imports loaded')
-//   })
-//   .catch((err) => {
-//     console.error(err)
-//   })
 if (window.location.pathname === '/') {
-  import(/* webpackChunkName: "savedcities" */ './modules/savedcities')
+  import(
+    /* webpackChunkName: "savedcities" */ /* webpackPrefetch: true */ './modules/savedcities'
+  )
     .then((module) => {
       if (process.env.NODE_ENV !== 'production') {
         console.log('savedCities import loaded')
       }
       const saved = module.default
-      saved()
+      return saved
     })
     .catch((err) => console.error(err))
 } else if (window.location.pathname === '/search/') {
-  import(/* webpackChunkName: "newcity" */ './modules/newcity')
+  import(
+    /* webpackChunkName: "newcity" */ /* webpackPrefetch: true */ './modules/newcity'
+  )
     .then((module) => {
       if (process.env.NODE_ENV !== 'production') {
         console.log('newCity import loaded')
       }
       const newCity = module.default
-      newCity()
+      return newCity
     })
     .catch((err) => console.error(err))
 }
@@ -58,15 +52,3 @@ window.onload = () => {
 }
 
 html.setAttribute('data-browser', browser.name)
-
-// Set time of day class
-const localTime = new Date()
-let dayNight
-if ((localTime >= 21 && localTime < 24) || (localTime >= 0 && localTime < 5)) {
-  dayNight = 'night'
-} else if (localTime > 7 && localTime <= 18) {
-  dayNight = 'day'
-} else {
-  dayNight = 'sunrise-sunset'
-}
-body.classList.toggle(dayNight)

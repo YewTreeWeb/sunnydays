@@ -200,12 +200,15 @@ const updateUI = (data) => {
   `
 
   // Add time of day class to card.
-  card.classList.toggle(`card--${cityDayNight}`)
+  card.classList.add(`card--${cityDayNight}`)
 
   // Add class for weather image.
-  card
-    .querySelector('.card__image img')
-    .classList.toggle(`${cityData.weather[0].main}`)
+  // const cardImg = document.querySelector('.card__image img')
+  // if (typeof cardImg !== 'undefined' || cardImg !== null) {
+  //   card
+  //     .querySelector('.card__image img')
+  //     .classList.add(`${cityData.weather[0].main}`)
+  // }
 }
 
 ready(() => {
@@ -219,15 +222,14 @@ ready(() => {
       cities.forEach((city) => {
         forcast
           .updateCity(city.city)
-          // .then((data) => updateUI(data))
           .then((data) => {
-            console.log(data)
+            if (process.env.NODE_ENV !== 'production') {
+              console.log(data)
+            }
             updateUI(data)
           })
           .catch((err) => console.error(err))
       })
     })
-    .catch((err) => {
-      console.error(err.message)
-    })
+    .catch((err) => console.error(err.message))
 })
