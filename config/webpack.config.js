@@ -15,12 +15,13 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         options: {
+          cacheDirectory: true,
           presets: ['@babel/preset-env', 'babel-preset-airbnb'],
-          plugins: [
-            '@babel/plugin-syntax-dynamic-import',
-            '@babel/plugin-transform-runtime',
-            '@babel/plugin-transform-async-to-generator',
-          ],
+          // plugins: [
+          //   '@babel/plugin-syntax-dynamic-import',
+          //   '@babel/plugin-transform-runtime',
+          //   '@babel/plugin-transform-async-to-generator',
+          // ],
         },
       },
     ],
@@ -34,14 +35,28 @@ module.exports = {
   },
   devtool: !prod ? 'inline-source-map' : false,
   output: {
-    filename: '[name].js',
+    filename: 'app.js',
     chunkFilename: '[name].bundle.js',
+  },
+  optimization: {
+    moduleIds: 'hashed',
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
   },
   // optimization: {
   //   splitChunks: {
   //     chunks: 'all',
   //     maxInitialRequests: Infinity,
   //     minSize: 0,
+  //     runtimeChunk: true,
   //     cacheGroups: {
   //       vendor: {
   //         name: 'vendor',
@@ -50,7 +65,6 @@ module.exports = {
   //       },
   //     },
   //   },
-  //   runtimeChunk: true,
   // },
   externals: {
     jquery: 'jQuery',
@@ -58,8 +72,6 @@ module.exports = {
     breakpoints: 'breakpoints',
   },
   plugins: [
-    // so that file hashes don't change unexpectedly
-    new webpack.HashedModuleIdsPlugin(),
     // Set dependencies in global scope
     // https://webpack.js.org/plugins/provide-plugin/
     new webpack.ProvidePlugin({

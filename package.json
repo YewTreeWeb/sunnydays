@@ -21,7 +21,9 @@
 		"pretest": "npm run --silent lint",
 		"test": "npm run --silent test:config && npm run --silent test:config:base",
 		"test:config": "cd packages/eslint-config-airbnb; npm test",
-		"test:config:base": "cd packages/eslint-config-airbnb-base; npm test"
+		"test:config:base": "cd packages/eslint-config-airbnb-base; npm test",
+		"webpack": "webpack --config=config/webpack.config.dev.js --mode development",
+		"serve": "webpack-dev-server --config=config/webpack.config.dev.js"
 	},
 	"dependencies": {
 		"airbnb-browser-shims": "^3.3.0",
@@ -35,6 +37,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.9.0",
+		"@babel/plugin-proposal-optional-chaining": "^7.9.0",
 		"@babel/plugin-syntax-dynamic-import": "^7.8.3",
 		"@babel/plugin-transform-async-to-generator": "^7.8.3",
 		"@babel/plugin-transform-runtime": "^7.9.0",
@@ -117,6 +120,8 @@
 		"vinyl-buffer": "^1.0.1",
 		"vinyl-named": "^1.1.0",
 		"webpack": "^4.42.1",
+		"webpack-cli": "^3.3.11",
+		"webpack-dev-server": "^3.10.3",
 		"webpack-stream": "^5.2.1",
 		"workbox-build": "^5.1.2",
 		"yargs": "^15.3.1"

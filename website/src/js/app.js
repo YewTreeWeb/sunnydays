@@ -4,29 +4,11 @@ import 'airbnb-browser-shims'
 // Internal
 import './modules/helpers'
 import './modules/background'
-import './modules/savedcities'
-import './modules/newcity'
+// import './modules/savedcities'
+// import './modules/newcity'
 
 // Dynamic Import local modules
-// const importCities = async () => {
-//   if (window.location.pathname === '/') {
-//     const savedCities = await import(
-//       /* webpackChunkName: "savedcities" */ /* webpackPrefetch: true */ './modules/savedcities'
-//     )
-//     if (process.env.NODE_ENV !== 'production') {
-//       console.log('savedCities import loaded')
-//     }
-//     return savedCities
-//   } else if (window.location.pathname === '/search/') {
-//     const newCity = await import(
-//       /* webpackChunkName: "newcity" */ /* webpackPrefetch: true */ './modules/newcity'
-//     )
-//     if (process.env.NODE_ENV !== 'production') {
-//       console.log('newCity import loaded')
-//     }
-//     return newCity
-//   }
-// }
+// const importCities = async () => {}
 // importCities()
 //   .then(() => {
 //     console.log('imports loaded')
@@ -34,6 +16,27 @@ import './modules/newcity'
 //   .catch((err) => {
 //     console.error(err)
 //   })
+if (window.location.pathname === '/') {
+  import(/* webpackChunkName: "savedcities" */ './modules/savedcities')
+    .then((module) => {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('savedCities import loaded')
+      }
+      const saved = module.default
+      saved()
+    })
+    .catch((err) => console.error(err))
+} else if (window.location.pathname === '/search/') {
+  import(/* webpackChunkName: "newcity" */ './modules/newcity')
+    .then((module) => {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('newCity import loaded')
+      }
+      const newCity = module.default
+      newCity()
+    })
+    .catch((err) => console.error(err))
+}
 
 const body = document.getElementsByTagName('body')[0]
 const html = document.getElementsByTagName('html')[0]
