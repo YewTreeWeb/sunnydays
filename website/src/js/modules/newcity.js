@@ -7,14 +7,15 @@ dayjs.extend(utc)
 
 // Call new forcast class
 const forcast = new Forcast()
+// Call saved cities class
+const savedCities = new savedCities()
 
 // Getting weather
 const cityForm = document.querySelector('form')
 const card = document.querySelector('.card')
 const content = document.querySelector('.card__content')
 const contentHeader = content.querySelectorAll('.card__header .column')[1]
-const savedCity = document.querySelector('.card__save button')
-const cities = []
+const saveCity = document.querySelector('.card__save button')
 
 // Output all data to DOM.
 const updateUI = (data) => {
@@ -235,13 +236,13 @@ if (localStorage.getItem('city')) {
 }
 
 // If city is saved add location to localForage
-savedCity.addEventListener('click', () => {
+saveCity.addEventListener('click', () => {
   const city = document.querySelector('.card__header h3').innerText
+  const place = document.querySelector('.card')
   if (process.env.NODE_ENV !== 'production') {
     console.log('Saved ' + city)
+    console.log(place)
   }
-  cities.push({
-    city: city,
-  })
-  localForage.setItem('cities', cities)
+  savedCities.addCity(city)
+  savedCities.offlineCity(place)
 })

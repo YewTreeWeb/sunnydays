@@ -9,21 +9,24 @@ import { ready } from './helpers'
 // Call new forcast class
 const forcast = new Forcast()
 
+// Call saved cities class
+const savedCities = new savedCities()
+
 // Getting weather
 const card = document.querySelector('.card')
 const content = document.querySelector('.columns')
 
 // Get any cities saved to localForage
-const savedCities = async () => {
-  const savedCity = await localForage.getItem('cities') // localForage
+// const savedCities = async () => {
+//   const savedCity = await localForage.getItem('cities') // localForage
 
-  // If there is an error, display our own error.
-  if (savedCity === null) {
-    throw new Error("Can't get cities or no cities saved!")
-  }
+//   // If there is an error, display our own error.
+//   if (savedCity === null) {
+//     throw new Error("Can't get cities or no cities saved!")
+//   }
 
-  return savedCity
-}
+//   return savedCity
+// }
 
 // Output all data to DOM.
 const updateUI = (data) => {
@@ -216,20 +219,39 @@ ready(() => {
   if (process.env.NODE_ENV !== 'production') {
     console.log('DOM loaded!')
   }
-  savedCities()
-    .then((cities) => {
-      // update ui with city
-      cities.forEach((city) => {
-        forcast
-          .updateCity(city.city)
-          .then((data) => {
-            if (process.env.NODE_ENV !== 'production') {
-              console.log(data)
-            }
-            updateUI(data)
-          })
-          .catch((err) => console.error(err))
-      })
+  if (navigator.onLine) {
+    // Get firebase cities
+    savedCities.getCities((city, id) => {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(city, id)
+      }
+      forcast
+        .updateCity(city)
+        .then((data) => {
+          if (process.env.NODE_ENV !== 'production') {
+            console.log(data)
+          }
+          updateUI(data)
+        })
+        .catch((err) => console.error(err))
     })
-    .catch((err) => console.error(err.message))
+  } else {
+    savedCities
+      .getCityStorage()
+      .then((cities) => {
+        // update ui with city
+        cities.forEach((city) => {
+          forcast
+            .updateCity(city.location)
+            .then((data) => {
+              if (process.env.NODE_ENV !== 'production') {
+                console.log(data)
+              }
+              updateUI(data)
+            })
+            .catch((err) => console.error(err))
+        })
+      })
+      .catch((err) => console.error(err.message))
+  }
 })
