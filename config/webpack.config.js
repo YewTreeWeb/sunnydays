@@ -91,6 +91,7 @@ module.exports = {
       cloudinary: 'cloudinary-core',
       browser: 'browser',
       breakpoints: 'breakpoints',
+      localForage: 'localforage',
     }),
   ],
 }

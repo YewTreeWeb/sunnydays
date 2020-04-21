@@ -246,5 +246,5 @@ saveCity.addEventListener('click', () => {
     console.log(place)
   }
   savedCities.addCity(city)
-  savedCities.offlineCity(place)
+  // savedCities.offlineCity(place)
 })

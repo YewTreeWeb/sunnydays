@@ -36,16 +36,16 @@ class SavedCities {
       })
     })
   }
-  async getCityStorage() {
-    const savedCity = await localForage.getItem('cities') // localForage
+  // async getCityStorage() {
+  //   const savedCity = await localForage.getItem('cities') // localForage
 
-    // If there is an error, display our own error.
-    if (savedCity === null) {
-      throw new Error("Can't get cities or no cities saved!")
-    }
+  //   // If there is an error, display our own error.
+  //   if (savedCity === null) {
+  //     throw new Error("Can't get cities or no cities saved!")
+  //   }
 
-    return savedCity
-  }
+  //   return savedCity
+  // }
 }
 
 export { SavedCities as default }

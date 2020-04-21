@@ -237,23 +237,23 @@ ready(() => {
         })
         .catch((err) => console.error(err))
     })
-  } else {
-    savedCities
-      .getCityStorage()
-      .then((cities) => {
-        // update ui with city
-        cities.forEach((city) => {
-          forcast
-            .updateCity(city.location)
-            .then((data) => {
-              if (process.env.NODE_ENV !== 'production') {
-                console.log(data)
-              }
-              updateUI(data)
-            })
-            .catch((err) => console.error(err))
-        })
-      })
-      .catch((err) => console.error(err.message))
+    // } else {
+    // savedCities
+    //   .getCityStorage()
+    //   .then((cities) => {
+    //     // update ui with city
+    //     cities.forEach((city) => {
+    //       forcast
+    //         .updateCity(city.location)
+    //         .then((data) => {
+    //           if (process.env.NODE_ENV !== 'production') {
+    //             console.log(data)
+    //           }
+    //           updateUI(data)
+    //         })
+    //         .catch((err) => console.error(err))
+    //     })
+    //   })
+    //   .catch((err) => console.error(err.message))
   }
 })
