@@ -39,6 +39,35 @@
   </script>
   <script src="https://www.google-analytics.com/analytics.js" async defer></script>
   {%- endif -%}
+
+  {%- comment -%} Firebase {%- endcomment -%}
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-firestore.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyANi8EwgNqjTeQHMlitCpfOyIU7AgvE6AE",
+      authDomain: "sunny-days-68cf3.firebaseapp.com",
+      databaseURL: "https://sunny-days-68cf3.firebaseio.com",
+      projectId: "sunny-days-68cf3",
+      storageBucket: "sunny-days-68cf3.appspot.com",
+      messagingSenderId: "124478312484",
+      appId: "1:124478312484:web:95d6b413f66dcfb7f748b1",
+      measurementId: "G-81KB0QS7CF"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    var db = firebase.firestore();
+  </script>
+  {%- comment -%} End Firebase {%- endcomment -%}
+
   <script src="{{ '/assets/js/breakpoints.min.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/browser.min.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/vendors.bundle.js' | relative_url }}" defer></script>

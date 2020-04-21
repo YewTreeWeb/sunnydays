@@ -1,5 +1,3 @@
-import localforage from '../../vendors/localforage/src/localforage'
-
 class SavedCities {
   constructor() {
     this.cities = db.collection('cities')

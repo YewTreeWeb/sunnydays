@@ -1,5 +1,7 @@
 // Import weather api
 import Forcast from './forcast'
+// Import saving weather
+import SavedCities from './savecity'
 // Import dayJS for date, time formatting
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -8,7 +10,7 @@ dayjs.extend(utc)
 // Call new forcast class
 const forcast = new Forcast()
 // Call saved cities class
-const savedCities = new savedCities()
+const savedCities = new SavedCities()
 
 // Getting weather
 const cityForm = document.querySelector('form')

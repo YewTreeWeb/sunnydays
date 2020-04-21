@@ -1,5 +1,6 @@
 import webpack from 'webpack'
 import yargs from 'yargs'
+import TerserPlugin from 'terser-webpack-plugin'
 const prod = yargs.argv.prod
 
 module.exports = {
@@ -15,13 +16,17 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         options: {
-          cacheDirectory: true,
           presets: ['@babel/preset-env', 'babel-preset-airbnb'],
-          // plugins: [
-          //   '@babel/plugin-syntax-dynamic-import',
-          //   '@babel/plugin-transform-runtime',
-          //   '@babel/plugin-transform-async-to-generator',
-          // ],
+        },
+      },
+      {
+        enforce: 'pre',
+        test: /\.jsx$|\.es6$|\.js$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/,
+        options: {
+          cache: true,
+          fix: true,
         },
       },
     ],
@@ -35,7 +40,7 @@ module.exports = {
   },
   devtool: !prod ? 'inline-source-map' : false,
   output: {
-    filename: 'app.js',
+    filename: '[name].js',
     chunkFilename: '[name].bundle.js',
   },
   optimization: {
@@ -50,22 +55,28 @@ module.exports = {
         },
       },
     },
+    minimize: prod ? true : false,
+    minimizer: [
+      new TerserPlugin({
+        test: /\.js(\?.*)?$/i,
+        terserOptions: {
+          output: {
+            comments: !prod ? true : false,
+          },
+        },
+        chunkFilter: (chunk) => {
+          // Exclude uglification for the `vendor` chunk
+          if (chunk.name === 'vendors') {
+            return false
+          }
+
+          return true
+        },
+        cache: true,
+        extractComments: false,
+      }),
+    ],
   },
-  // optimization: {
-  //   splitChunks: {
-  //     chunks: 'all',
-  //     maxInitialRequests: Infinity,
-  //     minSize: 0,
-  //     runtimeChunk: true,
-  //     cacheGroups: {
-  //       vendor: {
-  //         name: 'vendor',
-  //         test: /[\\/]node_modules[\\/]/,
-  //         enforce: true,
-  //       },
-  //     },
-  //   },
-  // },
   externals: {
     jquery: 'jQuery',
     browser: 'browser',
@@ -80,7 +91,6 @@ module.exports = {
       cloudinary: 'cloudinary-core',
       browser: 'browser',
       breakpoints: 'breakpoints',
-      localForage: 'localforage',
     }),
   ],
 }

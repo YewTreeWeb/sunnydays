@@ -12,7 +12,7 @@ if (window.location.pathname === '/') {
   )
     .then((module) => {
       if (process.env.NODE_ENV !== 'production') {
-        console.log('savedCities import loaded')
+        console.log('Saved cities import loaded')
       }
       const saved = module.default
       return saved
@@ -24,7 +24,7 @@ if (window.location.pathname === '/') {
   )
     .then((module) => {
       if (process.env.NODE_ENV !== 'production') {
-        console.log('newCity import loaded')
+        console.log('New city import loaded')
       }
       const newCity = module.default
       return newCity
